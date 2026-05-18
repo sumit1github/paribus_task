@@ -1,0 +1,56 @@
+{% load hospital_extras %}
+<tr id="{% if hospital and hospital.id %}hospital-{{ hospital.id }}{% else %}new-row{% endif %}">
+  <td class="text-muted">{{ hospital.id|default:"new" }}</td>
+  <td>
+    {{ form.name }}
+    {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors|join:" " }}</div>{% endif %}
+  </td>
+  <td>
+    {{ form.address }}
+    {% if form.address.errors %}<div class="text-danger small">{{ form.address.errors|join:" " }}</div>{% endif %}
+  </td>
+  <td>
+    {{ form.phone }}
+    {% if form.phone.errors %}<div class="text-danger small">{{ form.phone.errors|join:" " }}</div>{% endif %}
+  </td>
+  <td class="small text-muted">
+    {% if hospital.creation_batch_id %}
+      <code title="{{ hospital.creation_batch_id }}">{{ hospital.creation_batch_id|slice:":8" }}…</code>
+    {% else %}—{% endif %}
+  </td>
+  <td>
+    {% if hospital.id %}
+      {% if hospital.active %}
+        <span class="badge bg-success-subtle text-success border border-success-subtle">Active</span>
+      {% else %}
+        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">Inactive</span>
+      {% endif %}
+    {% else %}
+      <span class="text-muted small">—</span>
+    {% endif %}
+  </td>
+  <td class="small text-muted" title="{{ hospital.created_at }}">{{ hospital.created_at|humanize_iso }}</td>
+  <td class="text-end text-nowrap">
+    <button type="button"
+            class="btn btn-sm btn-success"
+            hx-post="{{ action_url }}"
+            hx-include="closest tr"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-disabled-elt="closest tr button">
+      <i class="fa-solid fa-check icon-default"></i>
+      <i class="fa-solid fa-spinner fa-spin icon-loading"></i>
+    </button>
+    <button type="button"
+            class="btn btn-sm btn-outline-secondary"
+            hx-get="{{ cancel_url }}"
+            hx-target="closest tr"
+            hx-swap="outerHTML"
+            hx-disabled-elt="closest tr button">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </td>
+</tr>
+{% if api_error %}
+  <tr><td colspan="8" class="text-danger small">API error: {{ api_error }}</td></tr>
+{% endif %}

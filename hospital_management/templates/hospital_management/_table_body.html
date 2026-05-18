@@ -1,0 +1,9 @@
+{% for hospital in hospitals %}
+  {% include 'hospital_management/_row.html' %}
+{% empty %}
+  <tr id="empty-row">
+    <td colspan="8" class="text-center text-muted py-4">
+      {% if q %}No hospitals matching "{{ q }}".{% else %}No hospitals yet. Click <em>Add hospital</em> to create one.{% endif %}
+    </td>
+  </tr>
+{% endfor %}

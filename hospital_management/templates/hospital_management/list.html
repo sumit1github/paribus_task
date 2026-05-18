@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h1 class="h4 mb-0">
+        <i class="fa-solid fa-hospital me-2 text-primary"></i>Hospitals
+      </h1>
+      <button class="btn btn-primary btn-sm"
+              hx-get="{% url 'hospital_management:new' %}"
+              hx-target="#hospital-rows"
+              hx-swap="afterbegin">
+        <i class="fa-solid fa-plus me-1"></i> Add hospital
+      </button>
+    </div>
+
+    <form class="row g-2 mb-3"
+          hx-get="{% url 'hospital_management:list' %}"
+          hx-trigger="input changed delay:500ms from:input, search from:input"
+          hx-target="#hospital-list-region"
+          hx-swap="innerHTML"
+          hx-push-url="true">
+      <div class="col-md-7">
+        <input type="search"
+               name="q"
+               value="{{ q }}"
+               placeholder="Search by name, address, or phone…"
+               class="form-control">
+      </div>
+      <div class="col-md-5">
+        <input type="search"
+               name="batch_id"
+               value="{{ batch_id }}"
+               placeholder="Filter by batch id (UUID)…"
+               class="form-control font-monospace">
+      </div>
+    </form>
+
+    {% if api_error %}
+      <div class="alert alert-warning small">Could not load hospitals: {{ api_error }}</div>
+    {% endif %}
+
+    <div id="hospital-list-region">
+      {% include 'hospital_management/_list_region.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}

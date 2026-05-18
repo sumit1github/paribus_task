@@ -1,0 +1,27 @@
+<form hx-post="{% url 'bulk:upload' %}"
+      hx-encoding="multipart/form-data"
+      hx-target="#bulk-region"
+      hx-swap="innerHTML"
+      enctype="multipart/form-data"
+      method="post">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <div class="mb-3">
+    <label for="{{ form.csv.id_for_label }}" class="form-label">{{ form.csv.label }}</label>
+    {{ form.csv }}
+    {% if form.csv.help_text %}<div class="form-text">{{ form.csv.help_text }}</div>{% endif %}
+    {% if form.csv.errors %}
+      <div class="invalid-feedback d-block">{{ form.csv.errors|join:" " }}</div>
+    {% endif %}
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fa-solid fa-upload me-1"></i> Upload &amp; process
+  </button>
+</form>

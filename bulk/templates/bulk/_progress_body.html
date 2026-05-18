@@ -1,0 +1,38 @@
+  <p class="text-muted mb-2">
+    <i class="fa-solid fa-hashtag"></i> Batch ID: <code>{{ batch_id }}</code>
+  </p>
+
+  <div class="progress mb-3" role="progressbar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar
+                {% if status == 'complete' and batch_activated %}bg-success{% endif %}
+                {% if status == 'complete' and not batch_activated %}bg-warning{% endif %}
+                {% if status != 'complete' %}progress-bar-striped progress-bar-animated{% endif %}"
+         style="width: {{ percent }}%;">
+      {{ percent }}%
+    </div>
+  </div>
+
+  <ul class="list-unstyled small">
+    <li><i class="fa-solid fa-list-ol text-secondary"></i> Total rows: <strong>{{ total }}</strong></li>
+    <li><i class="fa-solid fa-check text-success"></i> Succeeded: <strong>{{ succeeded }}</strong></li>
+    <li><i class="fa-solid fa-xmark text-danger"></i> Failed: <strong>{{ failed }}</strong></li>
+    <li><i class="fa-solid fa-spinner text-info"></i> Processed: <strong>{{ processed }} / {{ total }}</strong></li>
+  </ul>
+
+  {% if status == 'complete' %}
+    <div class="alert {% if batch_activated %}alert-success{% else %}alert-warning{% endif %} mt-3">
+      <i class="fa-solid {% if batch_activated %}fa-circle-check{% else %}fa-triangle-exclamation{% endif %} me-1"></i>
+      {% if batch_activated %}
+        Batch complete and activated. {{ succeeded }} hospital{{ succeeded|pluralize }} created, {{ failed }} failed.
+      {% else %}
+        Batch finished with issues. {{ succeeded }} succeeded, {{ failed }} failed.
+        {% if error %}<div class="small mt-1"><strong>Activation:</strong> {{ error }}</div>{% endif %}
+      {% endif %}
+    </div>
+
+    <a href="{% url 'bulk:upload' %}" class="btn btn-outline-primary btn-sm">
+      <i class="fa-solid fa-rotate-left me-1"></i> Upload another file
+    </a>
+  {% else %}
+    <p class="text-muted small mb-0"><i class="fa-solid fa-circle-notch fa-spin me-1"></i> Processing… keep this page open.</p>
+  {% endif %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card upload-card shadow-sm">
+  <div class="card-body">
+    <h1 class="h4 mb-3">
+      <i class="fa-solid fa-hospital me-2 text-primary"></i>{{ page_title }}
+    </h1>
+    <p class="text-muted">Upload a CSV with up to 20 hospitals. Columns: <code>name</code>, <code>address</code>,
+      <code>phone</code> (optional).
+    </p>
+
+    <div id="bulk-region">
+      {% include 'bulk/_form.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const batch_id = "{{ batch_group_name }}";
+</script>
+<script src="{% static 'bulk/channels.js' %}"></script>
+
+{% endblock scripts%}

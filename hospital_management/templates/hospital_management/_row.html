@@ -1,0 +1,50 @@
+{% load hospital_extras %}
+<tr id="hospital-{{ hospital.id }}">
+  <td class="text-muted">{{ hospital.id }}</td>
+  <td>{{ hospital.name }}</td>
+  <td>{{ hospital.address }}</td>
+  <td>{{ hospital.phone|default:"—" }}</td>
+  <td class="small">
+    {% if hospital.creation_batch_id %}
+      <span class="d-inline-flex align-items-center gap-1">
+        <code class="text-muted" title="{{ hospital.creation_batch_id }}">{{ hospital.creation_batch_id|slice:":8" }}…</code>
+        <button type="button"
+                class="btn btn-link btn-sm p-0 lh-1 copy-btn text-muted"
+                data-copy="{{ hospital.creation_batch_id }}"
+                aria-label="Copy batch id">
+          <i class="fa-regular fa-copy"></i>
+        </button>
+      </span>
+    {% else %}
+      <span class="text-muted">—</span>
+    {% endif %}
+  </td>
+  <td>
+    {% if hospital.active %}
+    <span class="badge bg-success-subtle text-success border border-success-subtle">Active</span>
+    {% else %}
+    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">Inactive</span>
+    {% endif %}
+  </td>
+  <td class="small text-muted" title="{{ hospital.created_at }}">{{ hospital.created_at|humanize_iso }}</td>
+  <td class="text-end text-nowrap">
+    {% if not hospital.active %}
+    <button class="btn btn-sm btn-outline-success"
+            hx-post="{% url 'hospital_management:activate' hospital.id %}"
+            hx-target="#hospital-{{ hospital.id }}"
+            hx-swap="outerHTML"
+            hx-confirm="Activate {{ hospital.name }}?"
+            title="Activate">
+      <i class="fa-solid fa-power-off"></i>
+    </button>
+    {% endif %}
+    <button class="btn btn-sm btn-outline-secondary" hx-get="{% url 'hospital_management:edit' hospital.id %}"
+      hx-target="#hospital-{{ hospital.id }}" hx-swap="outerHTML">
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    <button class="btn btn-sm btn-outline-danger" hx-delete="{% url 'hospital_management:delete' hospital.id %}"
+      hx-target="#hospital-{{ hospital.id }}" hx-swap="outerHTML" hx-confirm="Delete {{ hospital.name }}?">
+      <i class="fa-solid fa-trash"></i>
+    </button>
+  </td>
+</tr>

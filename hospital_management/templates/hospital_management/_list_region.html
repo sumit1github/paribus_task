@@ -1,0 +1,21 @@
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+      <tr>
+        <th style="width:60px;">#</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th style="width:140px;">Phone</th>
+        <th style="width:120px;">Batch</th>
+        <th style="width:90px;">Status</th>
+        <th style="width:180px;">Created</th>
+        <th style="width:120px;" class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="hospital-rows">
+      {% include 'hospital_management/_table_body.html' %}
+    </tbody>
+  </table>
+</div>
+
+{% include 'hospital_management/_pagination.html' %}
