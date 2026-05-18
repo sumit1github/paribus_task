@@ -201,3 +201,13 @@ utils/                  Utility helpers (pagination, etc.)
 
 WebSocket route: `ws/batch/<batch_id>/` → [`BatchProgressConsumer`](bulk/consumers.py).
 Celery tasks: [`bulk.process_batch`](bulk/tasks.py), [`bulk.retry_failed_rows`](bulk/tasks.py).
+
+## Realtime progress UI
+
+The HTML upload at `/` streams live progress over a WebSocket (`/ws/batch/<group>/`). Drop a CSV in the browser to watch row counters and the progress bar tick in real time — same Celery task as the JSON API, same per-row state.
+
+![Screenshot 1](screenshots/1.jpeg)
+![Screenshot 2](screenshots/2.jpeg)
+![Screenshot 3](screenshots/3.jpeg)
+![Screenshot 4](screenshots/4.jpeg)
+![Screenshot 5](screenshots/5.jpeg)
