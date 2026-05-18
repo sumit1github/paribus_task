@@ -211,4 +211,4 @@ The HTML upload at `/` streams live progress over a WebSocket (`/ws/batch/<group
 ![Screenshot 3](screenshots/3.jpeg)
 ![Screenshot 4](screenshots/4.jpeg)
 ![Screenshot 5](screenshots/5.jpeg)
-![Screenshot 6](screenshots/6.jpeg)
+![Screenshot 6](screenshots/6.png)
